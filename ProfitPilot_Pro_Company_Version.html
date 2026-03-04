@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProfitPilot Pro | Smart Profit System</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+body{
+    margin:0;
+    font-family:'Cairo',sans-serif;
+    background:#f4f6f9;
+}
+.hero{
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+    padding:80px 20px;
+    text-align:center;
+}
+.hero h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+.hero p{
+    font-size:18px;
+    opacity:0.9;
+}
+.hero button{
+    margin-top:25px;
+    padding:14px 30px;
+    font-size:16px;
+    border:none;
+    border-radius:12px;
+    background:gold;
+    font-weight:bold;
+    cursor:pointer;
+}
+.section{
+    padding:60px 20px;
+    text-align:center;
+}
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    max-width:1000px;
+    margin:auto;
+}
+.card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 15px 30px rgba(0,0,0,.1);
+}
+.pricing{
+    background:#fff;
+    padding:40px;
+    border-radius:20px;
+    max-width:500px;
+    margin:auto;
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+.price{
+    font-size:36px;
+    font-weight:bold;
+    margin:20px 0;
+}
+.footer{
+    background:#111;
+    color:#aaa;
+    text-align:center;
+    padding:25px;
+    font-size:14px;
+}
+.app{
+    display:none;
+    padding:40px 20px;
+}
+input,select{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+button.primary{
+    background:#2c5364;
+    color:white;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+.result{
+    margin-top:15px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<!-- Landing Page -->
+<div id="landing">
+<div class="hero">
+<h1>ProfitPilot Pro</h1>
+<p>نظام احترافي لإدارة وحساب أرباح التجارة الإلكترونية</p>
+<button onclick="showApp()">ابدأ الآن</button>
+</div>
+
+<div class="section">
+<h2>لماذا ProfitPilot ؟</h2>
+<div class="features">
+<div class="card">
+<h3>حساب ذكي</h3>
+<p>حساب الربح الصافي وهامش الربح بدقة</p>
+</div>
+<div class="card">
+<h3>تحكم كامل</h3>
+<p>إدارة التكاليف، الضرائب، الخصومات بسهولة</p>
+</div>
+<div class="card">
+<h3>نظام اشتراك</h3>
+<p>ترقية إلى Premium عبر CCP</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="pricing">
+<h2>خطة Premium</h2>
+<div class="price">1500 دج / شهر</div>
+<p>وصول كامل لجميع الميزات</p>
+<button class="primary" onclick="showApp()">اشترك الآن</button>
+</div>
+</div>
+
+<div class="footer">
+© 2026 ProfitPilot Pro - All Rights Reserved
+</div>
+</div>
+
+<!-- App -->
+<div id="app" class="app">
+<h2>حاسبة الأرباح</h2>
+<select id="currency">
+<option value="DZD">دينار جزائري</option>
+<option value="USD">دولار</option>
+<option value="SAR">ريال سعودي</option>
+</select>
+<input type="number" id="cost" placeholder="تكلفة المنتج">
+<input type="number" id="fees" placeholder="الرسوم + الشحن">
+<input type="number" id="price" placeholder="سعر البيع">
+<input type="number" id="quantity" placeholder="عدد القطع">
+<input type="number" id="discount" placeholder="نسبة الخصم %">
+<input type="number" id="tax" placeholder="نسبة الضريبة %">
+<button class="primary" onclick="calculate()">احسب</button>
+<div class="result" id="result"></div>
+</div>
+
+<script>
+function showApp(){
+    document.getElementById("landing").style.display="none";
+    document.getElementById("app").style.display="block";
+}
+
+function calculate(){
+let cost=parseFloat(document.getElementById("cost").value)||0;
+let fees=parseFloat(document.getElementById("fees").value)||0;
+let price=parseFloat(document.getElementById("price").value)||0;
+let quantity=parseFloat(document.getElementById("quantity").value)||1;
+let discount=parseFloat(document.getElementById("discount").value)||0;
+let tax=parseFloat(document.getElementById("tax").value)||0;
+let currency=document.getElementById("currency").value;
+
+let finalPrice=price-(price*discount/100);
+let taxAmount=finalPrice*tax/100;
+let totalCost=cost+fees+taxAmount;
+let profitPerUnit=finalPrice-totalCost;
+let totalProfit=profitPerUnit*quantity;
+let margin=((profitPerUnit/finalPrice)*100).toFixed(2);
+
+document.getElementById("result").innerHTML=
+`الربح للقطعة: ${profitPerUnit.toFixed(2)} ${currency}<br>
+إجمالي الربح: ${totalProfit.toFixed(2)} ${currency}<br>
+هامش الربح: ${margin}%`;
+}
+</script>
+
+</body>
+</html>
